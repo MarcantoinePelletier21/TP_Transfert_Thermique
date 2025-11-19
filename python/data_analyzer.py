@@ -117,8 +117,8 @@ def load_npz(filepath):
 
 if __name__ == "__main__":
 
-    csv_path = r"C:\Users\MarcAntoinePelletier\Desktop\ecole\ULaval\Automne 2025\TT\dataverse_files\DataSet.csv"
-    npz_path = r"C:\Users\MarcAntoinePelletier\Desktop\ecole\ULaval\Automne 2025\TT\dataverse_files\DataSet.npz"
+    csv_path = r"dataverse_files\DataSet.csv"
+    npz_path = r"dataverse_files\DataSet.npz"
 
     print("Loading CSV...")
     time, T_out, RH_out, sensors = load_raw_csv(csv_path)

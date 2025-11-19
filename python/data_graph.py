@@ -237,7 +237,7 @@ class DataGrapherApp:
 
 
 def main():
-    npz_path = r"C:\Users\MarcAntoinePelletier\Desktop\ecole\ULaval\Automne 2025\TT\dataverse_files\DataSet.npz"
+    npz_path = r"dataverse_files\DataSet.npz"
 
     root = tk.Tk()
     app = DataGrapherApp(root, npz_path)

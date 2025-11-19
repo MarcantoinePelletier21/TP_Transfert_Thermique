@@ -24,7 +24,7 @@ AVG_WINDOW = "1D"   # <<< CHANGE JUSTE ÇA
 # ===============================
 
 time, T_out, RH_out, low, mid, top = load_npz(
-    r"C:\Users\MarcAntoinePelletier\Desktop\ecole\ULaval\Automne 2025\TT\dataverse_files\DataSet.npz"
+    r"dataverse_files\DataSet.npz"
 )
 
 # Moyenne temporelle par timestep (ignore les NaN)

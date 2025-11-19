@@ -30,7 +30,7 @@ GROUPS = [[4,8,12,16,18,22,25,28],[1,3,5,7,9,11,13,15,19,21,23,27,29], [2,6,10,1
 # ==========================================================
 
 time, T_out, RH_out, low, mid, top = load_npz(
-    r"C:\Users\MarcAntoinePelletier\Desktop\ecole\ULaval\Automne 2025\TT\dataverse_files\DataSet.npz"
+    r"dataverse_files\DataSet.npz"
 )
 
 df_time = pd.DataFrame({"time": pd.to_datetime(time)})
