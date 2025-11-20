@@ -194,14 +194,14 @@ class DataGrapherApp:
                 label = f"{h}-S{s}"
                 self.ax.plot(t_sel, y, label=label)
 
-        self.ax.set_xlabel("Time", fontsize = 14, fontweight = "bold")
+        self.ax.set_xlabel("Temps", fontsize = 14, fontweight = "bold")
         self.ax.set_ylabel("Temperature [°C]", fontsize = 14, fontweight = "bold")
 
-        if len(heights) * len(stations) == 1:
-            title = f"{heights[0]}-S{stations[0]} vs time"
-        else:
-            title = "Selected sensors vs time"
-        self.ax.set_title(title, fontsize = 16, fontweight = "bold")
+        # if len(heights) * len(stations) == 1:
+        #     title = f"{heights[0]}-S{stations[0]} vs time"
+        # else:
+        #     title = "Selected sensors vs time"
+        # self.ax.set_title(title, fontsize = 16, fontweight = "bold")
 
         # Time axis formatting
         self.ax.xaxis.set_major_locator(mdates.AutoDateLocator(maxticks=12))

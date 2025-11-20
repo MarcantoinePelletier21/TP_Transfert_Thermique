@@ -19,6 +19,7 @@ warnings.filterwarnings("ignore", message="Mean of empty slice")
 
 AVG_WINDOW = "1D"   # <<< CHANGE JUSTE ÇA
 
+
 # ===============================
 # Load dataset
 # ===============================
@@ -60,8 +61,6 @@ plt.plot(df_avg.index, df_avg["mean_top"], label=f"Top ({AVG_WINDOW})", linewidt
 
 plt.xlabel("Temps", fontsize=13, fontweight="bold")
 plt.ylabel("Température moyenne [°C]", fontsize=13, fontweight="bold")
-plt.title(f"Température moyenne — Résolution: {AVG_WINDOW}", fontsize=14, fontweight="bold")
-
 plt.gca().xaxis.set_major_locator(mdates.AutoDateLocator(maxticks=10))
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m-%d\n%H:%M"))
 plt.gcf().autofmt_xdate()
