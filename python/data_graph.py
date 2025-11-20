@@ -194,22 +194,23 @@ class DataGrapherApp:
                 label = f"{h}-S{s}"
                 self.ax.plot(t_sel, y, label=label)
 
-        self.ax.set_xlabel("Temps", fontsize = 14, fontweight = "bold")
-        self.ax.set_ylabel("Temperature [°C]", fontsize = 14, fontweight = "bold")
+        self.ax.set_xlabel("Temps", fontsize=18, fontweight="bold")
+        self.ax.set_ylabel("Température [°C]", fontsize=18, fontweight="bold")
 
-        # if len(heights) * len(stations) == 1:
-        #     title = f"{heights[0]}-S{stations[0]} vs time"
-        # else:
-        #     title = "Selected sensors vs time"
-        # self.ax.set_title(title, fontsize = 16, fontweight = "bold")
+        # Ticks (graduations)
+        self.ax.tick_params(axis="both", labelsize=15)  # ++ plus visibles, pas en gras
 
-        # Time axis formatting
+        # Légende (si peu de courbes)
+        if len(heights) * len(stations) <= 15:
+            self.ax.legend(fontsize=14, frameon=True)
+
+        # Titre (optionnel)
+        # self.ax.set_title("Capteurs sélectionnés", fontsize=20, fontweight="bold")
+
+        # Format de l'axe du temps
         self.ax.xaxis.set_major_locator(mdates.AutoDateLocator(maxticks=12))
         self.ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m-%d\n%H:%M"))
         self.fig.autofmt_xdate()
-
-        if len(heights) * len(stations) <= 15:
-            self.ax.legend()
 
         self.ax.grid(True)
         self.canvas.draw()
