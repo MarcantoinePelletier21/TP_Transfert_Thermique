@@ -79,6 +79,7 @@ else:
 # ==========================================================
 
 plt.figure(figsize=(14, 6))
+# plt.figure()
 
 # ---- Cas A : aucun groupe → tracer les 29 stations ----
 if len(GROUPS) == 0:
@@ -86,8 +87,8 @@ if len(GROUPS) == 0:
     for s in range(1, 30):
         plt.plot(df_avg.index, df_avg[f"S{s}"], linewidth=1.2, label=f"S{s}")
 
-    plt.title(f"Moyenne verticale par station (fenêtre: {AVG_WINDOW})",
-              fontsize=14, fontweight="bold")
+    # plt.title(f"Moyenne verticale par station (fenêtre: {AVG_WINDOW})",
+    #           fontsize=14, fontweight="bold")
     plt.ylabel("Température [°C]", fontsize=12, fontweight="bold")
 
 
@@ -103,10 +104,11 @@ else:
         group_mean = df_avg[cols].mean(axis=1)
 
         plt.plot(df_avg.index, group_mean, linewidth=2.0,
-                 label=f"Groupe {g_idx}: {group}")
+                #  label=f"Plateau {g_idx}: S {group}")
+                label=f"Groupe {g_idx}: S {group}")
 
-    plt.title(f"Moyennes verticales par groupe (fenêtre: {AVG_WINDOW})",
-              fontsize=14, fontweight="bold")
+    # plt.title(f"Moyennes verticales par groupe (fenêtre: {AVG_WINDOW})",
+    #           fontsize=14, fontweight="bold")
     plt.ylabel("Température moyenne [°C]", fontsize=12, fontweight="bold")
 
 
