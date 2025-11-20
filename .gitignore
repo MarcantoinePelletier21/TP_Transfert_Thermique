@@ -1,2 +1,12 @@
 dataverse_files
 Fig
+# Fichiers Python compilés
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Dossiers de build / cache
+build/
+dist/
+*.egg-info/
