@@ -9,10 +9,7 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import pandas as pd
 
-
-
 HEIGHTS = ("Low", "Mid", "Top")
-
 
 class DataGrapherApp:
     def __init__(self, master, npz_path):
@@ -46,6 +43,14 @@ class DataGrapherApp:
             cb = ttk.Checkbutton(heights_frame, text=h, variable=var)
             cb.pack(anchor="w")
             self.height_vars[h] = var
+
+        # --- External temperature ---
+        ext_frame = ttk.LabelFrame(ctrl_frame, text="External")
+        ext_frame.pack(fill=tk.X, pady=5)
+
+        self.var_Text = tk.BooleanVar(value=False)
+        cb_ext = ttk.Checkbutton(ext_frame, text="T_ext", variable=self.var_Text)
+        cb_ext.pack(anchor="w")
 
         # Stations listbox
         stations_frame = ttk.LabelFrame(ctrl_frame, text="Stations")
@@ -119,16 +124,11 @@ class DataGrapherApp:
     def get_selected_stations(self):
         sel = self.station_listbox.curselection()
         if not sel:
-            return []  # no station selected
-        # Listbox index 0 -> station 1
+            return []
         stations = [i + 1 for i in sel]
         return stations
 
     def get_time_mask(self):
-        """
-        Returns a boolean mask for the selected time range.
-        If both entries are empty, returns all True.
-        """
         t = self.time
         mask = np.ones(t.shape[0], dtype=bool)
 
@@ -172,21 +172,21 @@ class DataGrapherApp:
         stations = self.get_selected_stations()
         mask = self.get_time_mask()
 
-        if not heights:
-            messagebox.showerror("Error", "Select at least one height (Low/Mid/Top).")
+        if not heights and not self.var_Text.get():
+            messagebox.showerror("Error", "Select at least one height or T_ext.")
             return
 
-        if not stations:
-            messagebox.showerror("Error", "Select at least one station in the list.")
+        if not stations and not self.var_Text.get():
+            messagebox.showerror("Error", "Select at least one station or T_ext.")
             return
 
         if mask is None:
             return
 
         self.ax.clear()
-
         t_sel = self.time[mask]
 
+        # --- Plot stations ---
         for h in heights:
             arr = self.get_array_for_height(h)
             for s in stations:
@@ -194,20 +194,22 @@ class DataGrapherApp:
                 label = f"{h}-S{s}"
                 self.ax.plot(t_sel, y, label=label)
 
+        # --- Plot external temperature ---
+        if self.var_Text.get():
+            y_ext = self.T_out[mask]
+            self.ax.plot(t_sel, y_ext, label="T_ext", linewidth=2.5)
+
+        # Axis labels
         self.ax.set_xlabel("Temps", fontsize=18, fontweight="bold")
         self.ax.set_ylabel("Température [°C]", fontsize=18, fontweight="bold")
 
         # Ticks (graduations)
-        self.ax.tick_params(axis="both", labelsize=15)  # ++ plus visibles, pas en gras
+        self.ax.tick_params(axis="both", labelsize=15)
 
-        # Légende (si peu de courbes)
-        if len(heights) * len(stations) <= 15:
-            self.ax.legend(fontsize=14, frameon=True)
+        # Legend
+        self.ax.legend(fontsize=14, frameon=True)
 
-        # Titre (optionnel)
-        # self.ax.set_title("Capteurs sélectionnés", fontsize=20, fontweight="bold")
-
-        # Format de l'axe du temps
+        # Time axis formatting
         self.ax.xaxis.set_major_locator(mdates.AutoDateLocator(maxticks=12))
         self.ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m-%d\n%H:%M"))
         self.fig.autofmt_xdate()
@@ -236,14 +238,12 @@ class DataGrapherApp:
         except Exception as e:
             messagebox.showerror("Error", f"Error while saving figure:\n{e}")
 
-
 def main():
     npz_path = r"dataverse_files\DataSet.npz"
 
     root = tk.Tk()
     app = DataGrapherApp(root, npz_path)
     root.mainloop()
-
 
 if __name__ == "__main__":
     main()
