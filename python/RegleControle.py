@@ -18,7 +18,7 @@ NIGHT_END = 7     # 07:00
 # ---------------------------------------------------------------
 # Interrupteurs
 # ---------------------------------------------------------------
-SHOW_NIGHT = True      # surligner les nuits
+SHOW_NIGHT = True     # surligner les nuits
 SHOW_COLD  = False       # surligner T_ext < 3°C
 
 
@@ -39,6 +39,17 @@ def main():
     top_S1 = top[mask, 0]      # S1 = colonne 0
     top_S29 = top[mask, 28]    # S29 = colonne 28
     T_ext_sel = T_out[mask]
+
+    mean_S1_S29 = np.nanmean([top_S1, top_S29])
+    mean_Text = np.nanmean(T_ext_sel)
+    mean_S1 = np.nanmean(top_S1)
+    mean_S29 = np.nanmean(top_S29)
+
+    print("Température extérieure moyenne :", mean_Text)
+    print("S1 Top moyen :", mean_S1)
+    print("S29 Top moyen :", mean_S29)
+    print("Température moyenne Top (S1 + S29) :", mean_S1_S29)
+
 
 
     # -----------------------------------------------------------
@@ -90,9 +101,9 @@ def main():
     # -----------------------------------------------------------
     if SHOW_COLD:
         # CORRECTION : c'est >3°C, donc :
-        below_mask = T_ext_sel > 3
+        below_mask = T_ext_sel > -1
 
-        cold_patch = mpatches.Patch(facecolor="gray", alpha=0.45, label="T_ext > 3°C")
+        cold_patch = mpatches.Patch(facecolor="gray", alpha=0.45, label="T_ext >-1°C")
 
         in_zone = False
         start_idx = 0
