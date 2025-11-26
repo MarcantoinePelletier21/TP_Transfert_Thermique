@@ -108,9 +108,9 @@ class schema(MovingCameraScene):
             np.array([-16, -3,  0])]
         
         polyline2 = VMobject().set_points_as_corners(point2)
-        dots = VGroup(*[Dot(p, color=ORANGE) for p in point2])
+        dots2 = VGroup(*[Dot(p, color=ORANGE) for p in point2])
 
-        self.play(Create(polyline2), FadeIn(dots), run_time=2)
+        self.play(Create(polyline2), FadeIn(dots2), run_time=2)
         self.wait()
 
         inside_shape = Polygon(*points, color=BLUE)
@@ -165,4 +165,27 @@ class schema(MovingCameraScene):
         t2.move_to([-12,8,0])
         self.play(FadeOut(text_ciment), FadeOut(text_isolant), FadeOut(text_puit), Transform(t1,t2))
         self.wait()
+        self.play(FadeIn(t2))
+        self.wait()
+
+        new_points = [np.array([-15,  -2,  0]),
+                      np.array([-15,  2,  0]),
+                      np.array([17,  2,  0]),
+                      np.array([17,  -2,  0]),
+                      np.array([-15,  -2,  0])]
+        
+        polyline3 = VMobject().set_points_as_corners(new_points)
+        dots3 = VGroup(*[Dot(p, color=ORANGE) for p in new_points])
+        self.play(Transform(polyline, polyline3), Transform(dots, dots3))
+        self.wait()
+
+        # ajout des zones p1,2,3,...
+
+        p1 = [np.array([-15,  -2,  0]),
+                      np.array([-15,  2,  0]),
+                      np.array([17,  2,  0]),
+                      np.array([17,  -2,  0]),
+                      np.array([-15,  -2,  0])]
+        
+
 
