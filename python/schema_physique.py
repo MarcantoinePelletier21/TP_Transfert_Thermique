@@ -2,21 +2,6 @@ from manim import *
 
 from manim import Difference
 
-
-# dimmension du puit
-longueur = 26.1
-largeur = 3.7
-hauteur = 1.7
-
-# dimmensions des salles
-p1 = [5,4,1]
-p2 = [5,4,1]
-p3 = [5,4,1]
-p4 = [6,4,1]
-p5 = [6,4.1]
-p6 = [5,4,1]
-
-
 class schema(MovingCameraScene):
     def construct(self):
         

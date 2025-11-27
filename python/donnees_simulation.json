@@ -1,0 +1,48 @@
+{
+  "geometrie": {
+    "epaisseur_plaque": 0.0254,
+    "epaisseur_ciment": 0.4,
+    "epaisseur_isolant": 0.1,
+    "longueur_puits": 26.1,
+    "largeur_puits": 3.7,
+    "hauteur_puits": 1.7,
+    "scale_x": 0.815625,
+    "scale_y": 0.925,
+    "scale_z": 1,
+    "p1_x": 5,
+    "p2_x": 5,
+    "p3_x": 5,
+    "p4_x": 6,
+    "p5_x": 6,
+    "p6_x": 5,
+    "pi_y": 4,
+    "pi_z": 1.7
+  },
+
+  "materiaux": {
+    "k_acier": 50,
+    "k_ciment": 10,
+    "k_isolant": 5,
+    "k_asphalte": 10
+  },
+
+  "convection": {
+    "h_int": {
+      "min": 30,
+      "max": 45,
+      "mean": 37.5
+    },
+    "h_ext": {
+      "min": 15,
+      "max": 30,
+      "mean": 22.5
+    }
+  },
+
+  "infiltration": {
+    
+    "cp_air": 1000
+  }
+}
+
+
