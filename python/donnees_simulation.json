@@ -1,6 +1,7 @@
 {
   "geometrie": {
-    "epaisseur_plaque": 0.0254,
+    "epaisseur_plaque": 0.009525,
+    "epaisseur_asphalte" : 0.08,
     "epaisseur_ciment": 0.4,
     "epaisseur_isolant": 0.1,
     "longueur_puits": 26.1,
@@ -19,29 +20,50 @@
     "pi_z": 1.7
   },
 
-  "materiaux": {
+  "propritetes": {
     "k_acier": 50,
     "k_ciment": 10,
     "k_isolant": 5,
-    "k_asphalte": 10
-  },
-
-  "convection": {
-    "h_int": {
-      "min": 30,
-      "max": 45,
-      "mean": 37.5
-    },
-    "h_ext": {
-      "min": 15,
-      "max": 30,
-      "mean": 22.5
-    }
+    "k_asphalte": 10,
+    "cp_air": 1000,
+    "h_int": 15,
+    "h_ext": 30
   },
 
   "infiltration": {
-    
-    "cp_air": 1000
+    "gap_1": 0.04107,
+    "gap_2": 0.01930,
+    "gap_3": -0.06202,
+    "gap_4": -0.0598,
+    "gap_5": -0.03247,
+    "gap_front": 0.04483,
+    "gap_back": 0.02567
+  },
+
+  "flow_heaterON":{
+    "f12": 0.2381,
+    "f21": 0.4438,
+    "f23": 0.3268,
+    "f32": 0.7042,
+    "f34": 0.2646,
+    "f43": 0.5915,
+    "f45": 0.1988,
+    "f54": 0.2915,
+    "f56": 0.4694,
+    "f65": 0.4070
+  },
+
+    "flow_heaterOFF":{
+    "f12": 0.04113,
+    "f21": 0.06844,
+    "f23": 0.0529,
+    "f32": 0.09304,
+    "f34": 0.05121,
+    "f43": 0.10386,
+    "f45": 0.04163,
+    "f54": 0.08528,
+    "f56": 0.03718,
+    "f65": 0.05788
   }
 }
 
