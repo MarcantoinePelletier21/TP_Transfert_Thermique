@@ -4,6 +4,8 @@ Fonctions pour le calcul des résistances thermiques (conduction, convection)
 et des flux (conductif, massique). Compatible avec un modèle en couche
 et un modèle nodal multi-zones.
 """
+import math
+
 
 # ============================================================
 # 1) RÉSISTANCES THERMIQUES
@@ -102,5 +104,31 @@ def flux_massique(m_dot, cp, T_upstream, T_downstream):
 
     return m_dot * cp * (T_upstream - T_downstream)
 
+
+def temperature_harmonique(t, T_mean, A, t0, phi=0.0):
+    """
+    Modèle harmonique général :
+        T(t) = T_mean + A * cos( 2π (t - phi) / t0 )
+
+    Paramètres
+    ----------
+    t : float
+        Temps (même unité que t0)
+    T_mean : float
+        Température moyenne (°C)
+    A : float
+        Amplitude (°C)
+    t0 : float
+        Période complète (ex.: 24 h ou 24*3600 s)
+    phi : float
+        Phase (heure du maximum)
+
+    Retour
+    ------
+    float
+        Température au temps t
+    """
+
+    return T_mean + A * math.cos(2 * math.pi * (t - phi) / t0)
 
 
