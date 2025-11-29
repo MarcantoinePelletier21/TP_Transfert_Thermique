@@ -113,7 +113,7 @@ def compute_Q_aerotherme(i, T, T_ext, heaters, heater_timers, params, dt):
         # turn OFF
         if heaters[i] == 1:
             heaters[i] = 0
-            heater_timers[i] = 10/60      # 10 min = 0.166 h
+            heater_timers[i] = 30/60      # 10 min = 0.166 h
         return 0.0
 
     # --- Conditions pour ON ---
@@ -398,27 +398,39 @@ def simulate(params, dt=1/60, t_end=48, debug=False):
 if __name__ == "__main__":
     params = load_parameters()
 
-    # Lancer une simulation courte en mode debug
-    time, T = simulate(params, dt=1/60, t_end=5, debug=True)
+    # --- 7 jours = 168 heures ---
+    t_end = 168      # durée totale
+    dt = 1/240        # 0.5 minute
+
+    # Debug possible mais tu vas avoir beaucoup d'affichage
+    # Mets debug=False pour un run propre
+    time, T = simulate(params, dt=dt, t_end=t_end, debug=False)
 
     print("\nSimulation terminée.")
     print("Dernières températures :", T[-1])
 
     # ==============================================================
-    #   PLOT DES TEMPÉRATURES
+    #   CALCUL DES T_ext & T_sol POUR LE GRAPHIQUE
     # ==============================================================
+    T_ext_vec = np.array([TempExt(t, params) for t in time])
+    T_sol_vec = np.array([TempSol(t, params) for t in time])
 
-    import matplotlib.pyplot as plt
+    # ==============================================================
+    #   PLOT DES TEMPÉRATURES (T1..T6 + T_ext + T_sol)
+    # ==============================================================
+    plt.figure(figsize=(12,6))
 
-    plt.figure(figsize=(10,5))
-
+    # Plateaux
     for i in range(6):
         plt.plot(time, T[:, i], label=f"T{i+1}")
 
-    plt.xlabel("Temps (heures)")
-    plt.ylabel("Température (°C)")
-    plt.title("Évolution des températures du puits")
-    plt.grid(True)
+    # Températures ext / sol
+    plt.plot(time, T_ext_vec, '--', label="T_ext", linewidth=2)
+    plt.plot(time, T_sol_vec, '--', label="T_sol", linewidth=2)
+
+    plt.xlabel("Temps (heures)", fontsize=20, fontweight="bold")
+    plt.ylabel("Température (°C)", fontsize=20, fontweight="bold")
+    plt.grid(False)
     plt.legend()
     plt.tight_layout()
     plt.show()
