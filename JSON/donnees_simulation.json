@@ -18,28 +18,29 @@
     "p6_x": 5,
     "pi_y": 4,
     "pi_z": 1.7,
-    "A_ciment_p1": 1,
-    "A_ciment_p2": 1,
-    "A_ciment_p3": 1,
-    "A_ciment_p4": 1,
-    "A_ciment_p5": 1,
-    "A_ciment_p6": 1,
-    "A_plaque_p1": 1,
-    "A_plaque_p2": 1,
-    "A_plaque_p3": 1,
-    "A_plaque_p4": 1,
-    "A_plaque_p5": 1,
-    "A_plaque_p6": 1
+    "A_ciment_p1": 35.2446875,
+    "A_ciment_p2": 28.9546875,
+    "A_ciment_p3": 28.9546875,
+    "A_ciment_p4": 34.745625000000004,
+    "A_ciment_p5": 34.745625000000004,
+    "A_ciment_p6": 35.2446875,
+    "A_plaque_p1": 15.0890625,
+    "A_plaque_p2": 15.0890625,
+    "A_plaque_p3": 15.0890625,
+    "A_plaque_p4": 18.106875000000002,
+    "A_plaque_p5": 18.106875000000002,
+    "A_plaque_p6": 15.0890625
   },
 
-  "propritetes": {
+  "proprietes": {
     "k_acier": 50,
     "k_ciment": 10,
     "k_isolant": 5,
     "k_asphalte": 10,
     "cp_air": 1000,
     "h_int": 15,
-    "h_ext": 30
+    "h_ext": 30,
+    "rho_air": 1.2
   },
 
   "infiltration": {
@@ -100,7 +101,17 @@
     "A": 6,
     "t0": 24.0,
     "phi": 15.0
-  }
+  },
+
+  "capacitance_thermique": {
+    "C1": 30781.6875,
+    "C2": 30781.6875,
+    "C3": 30781.6875,
+    "C4": 30781.6875,
+    "C5": 30781.6875,
+    "C6": 30781.6875
+}
+
 
 
 }
