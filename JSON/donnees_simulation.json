@@ -17,7 +17,19 @@
     "p5_x": 6,
     "p6_x": 5,
     "pi_y": 4,
-    "pi_z": 1.7
+    "pi_z": 1.7,
+    "A_ciment_p1": 1,
+    "A_ciment_p2": 1,
+    "A_ciment_p3": 1,
+    "A_ciment_p4": 1,
+    "A_ciment_p5": 1,
+    "A_ciment_p6": 1,
+    "A_plaque_p1": 1,
+    "A_plaque_p2": 1,
+    "A_plaque_p3": 1,
+    "A_plaque_p4": 1,
+    "A_plaque_p5": 1,
+    "A_plaque_p6": 1
   },
 
   "propritetes": {
