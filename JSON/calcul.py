@@ -67,7 +67,7 @@ if __name__ == "__main__":
     )
 
 
-    rho_air = prop["rho_air"]           # kg/m3
+    rho_air = prop["rho_air"]          
     cp_air  = prop["cp_air"]
 
     # dimensions verticales et largeur (communes)
@@ -106,7 +106,6 @@ if __name__ == "__main__":
     C5 = m5 * cp_air
     C6 = m6 * cp_air
 
-    print("\n--- Capacitances thermiques (C1 à C6, en J/K) ---")
     print("C1 =", C1)
     print("C2 =", C2)
     print("C3 =", C3)
