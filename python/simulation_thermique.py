@@ -1,5 +1,6 @@
 import json
 import numpy as np
+import matplotlib.pyplot as plt
 
 from calcul_resistance_flux import (
     resistance_convection,
@@ -239,49 +240,43 @@ def compute_Q_flow(i, T, flow, params):
 
 def q_to_Tnew(Ti, T_ext, T_sol, Q_air, dt, R_ext, R_sol, C):
     """
-    Mise à jour de la température d'un plateau en utilisant
-    un modèle thermique RC (Euler explicite).
+    Mise à jour implicite (schéma de la feuille).
 
-    Ti : température actuelle du plateau (°C)
-    T_ext : température extérieure (°C)
-    T_sol : température du sol (°C)
-    Q_air : flux d'air total (W)
-    dt : pas de temps (heures)
-    R_ext, R_sol : résistances thermiques (K/W)
-    C : capacité thermique du plateau (J/K)
+    Ti : T_{i}(t - Δt)
+    T_ext, T_sol : conditions aux limites à t
+    Q_air : Q_i(t)
+    dt : pas de temps (en h)
+    R_ext, R_sol : résistances vers extérieur / sol
+    C : capacité thermique
     """
 
-    dt_s = dt * 3600  # conversion heures → secondes
+    # convert hours → seconds
+    dt_s = dt * 3600.0
 
-    # flux conduction
-    Q_cond_ext = (T_ext - Ti) / R_ext
-    Q_cond_sol = (T_sol - Ti) / R_sol
+    # Coefficients du schéma implicite
+    A = (C / dt_s) + (1.0 / R_ext) + (1.0 / R_sol)
+    B = (C / dt_s) * Ti + (T_ext / R_ext) + (T_sol / R_sol) + Q_air
 
-    # flux total
-    Q_total = Q_cond_ext + Q_cond_sol + Q_air
-
-    # intégration dT/dt = Q/C
-    T_new = Ti + (dt_s / C) * Q_total
-
+    # Température implicite
+    T_new = B / A
     return T_new
 
 
 
-
 # ============================================================
-# 5) MAIN SIMULATION LOOP
+#  SIMULATION (AVEC MODE DEBUG)
 # ============================================================
-
-def simulate(params, dt=1/60, t_end=48):
+def simulate(params, dt=1/60, t_end=48, debug=False):
     """
     Simulation thermique du puits.
-    dt : en heures (ex: 1/60 h = 1 minute)
+    dt : pas de temps en heures (ex: 1/60 h = 1 minute)
     t_end : durée totale en heures
+    debug : si True, imprime les paramètres et flux à chaque étape
     """
 
-    # ============================================================
-    # Charger C depuis le JSON
-    # ============================================================
+    # ------------------------------------------------------------
+    # Charger les capacités thermiques C
+    # ------------------------------------------------------------
     C_json = params["capacitance_thermique"]
     C = np.array([
         C_json["C1"],
@@ -292,51 +287,49 @@ def simulate(params, dt=1/60, t_end=48):
         C_json["C6"]
     ], dtype=float)
 
-    # ============================================================
-    # Time vector et initialisation T
-    # ============================================================
+    # ------------------------------------------------------------
+    # Calculer les résistances thermiques plateau-par-plateau
+    # ------------------------------------------------------------
+    R_ext, R_sol = compute_resistances(params)
+
+    # ------------------------------------------------------------
+    # Temps + initialisation des températures
+    # ------------------------------------------------------------
     n_steps = int(t_end / dt) + 1
     time = np.linspace(0, t_end, n_steps)
 
     T = np.zeros((n_steps, 6))
-    T[0, :] = np.full(6, 10.0)  # initial plateau temperature
+    T[0, :] = np.full(6, 25.0)   # INITIALISATION À 25 °C
 
-    # ============================================================
-    # Résistances plateau-par-plateau
-    # ============================================================
-    R_ext, R_sol = compute_resistances(params)
-
-    # ============================================================
+    # ------------------------------------------------------------
     # État des aérothermes
-    # ============================================================
-    heaters = np.zeros(6, dtype=int)       # 0 = OFF, 1 = ON
-    heater_timers = np.zeros(6, float)     # cooldown (heures)
+    # ------------------------------------------------------------
+    heaters = np.zeros(6, dtype=int)
+    heater_timers = np.zeros(6, float)
 
-    # ============================================================
-    # Boucle temporelle
-    # ============================================================
+    # ------------------------------------------------------------
+    # BOUCLE TEMPORELLE
+    # ------------------------------------------------------------
     for n in range(1, n_steps):
 
         t = time[n]
-
-        # Température extérieure / sol au temps t
         T_ext_current = TempExt(t, params)
         T_sol_current = TempSol(t, params)
 
-        # Sélection du bon set de flow ON / OFF
+        # Sélection des coefficients flow
         if np.any(heaters == 1):
             flow = params["flow_heaterON"]
         else:
             flow = params["flow_heaterOFF"]
 
         # --------------------------------------------------------
-        # Boucle plateau
+        # BOUCLE PLATEAU (1..6)
         # --------------------------------------------------------
         for i in range(6):
 
             Ti = T[n-1, i]
 
-            # Flux aérotherme avec temporisateur
+            # Flux aérotherme
             Q_aero = compute_Q_aerotherme(
                 i=i,
                 T=T[n-1],
@@ -363,33 +356,70 @@ def simulate(params, dt=1/60, t_end=48):
                 params=params
             )
 
-            # Q total (air)
+            # Total (air)
             Q_total = Q_aero + Q_inf + Q_flow_i
 
             # --------------------------------------------------------
-            # Mise à jour température
+            # DEBUG : IMPRIMER LES VALEURS
             # --------------------------------------------------------
-            T[n, i] = q_to_Tnew(
-                Ti=Ti,
-                T_ext=T_ext_current,
-                T_sol=T_sol_current,
-                Q_air=Q_total,
-                dt=dt,
-                R_ext=R_ext[i],
-                R_sol=R_sol[i],
-                C=C[i]
-            )
+            if debug and n % 10 == 0:
+                print(f"\n=== t = {t:.3f} h | plateau {i+1} ===")
+                print(f"Ti_old        = {Ti:.6f}")
+                print(f"T_ext         = {T_ext_current:.6f}")
+                print(f"T_sol         = {T_sol_current:.6f}")
+                print(f"R_ext         = {R_ext[i]:.6e}")
+                print(f"R_sol         = {R_sol[i]:.6e}")
+                print(f"C             = {C[i]:.6e}")
+                print(f"Q_aero        = {Q_aero:.6f}")
+                print(f"Q_inf         = {Q_inf:.6f}")
+                print(f"Q_flow_i      = {Q_flow_i:.6f}")
+                print(f"Q_total (air) = {Q_total:.6f}")
+
+                Q_c_ext = (T_ext_current - Ti) / R_ext[i]
+                Q_c_sol = (T_sol_current - Ti) / R_sol[i]
+                print(f"Q_cond_ext    = {Q_c_ext:.6f}")
+                print(f"Q_cond_sol    = {Q_c_sol:.6f}")
+
+            # --------------------------------------------------------
+            # Mise à jour de la température (Euler explicite TEMPORAIRE)
+            # --------------------------------------------------------
+            dt_s = dt * 3600
+            Q_cond_ext = (T_ext_current - Ti) / R_ext[i]
+            Q_cond_sol = (T_sol_current - Ti) / R_sol[i]
+            Q_tot = Q_cond_ext + Q_cond_sol + Q_total
+            T[n, i] = Ti + (dt_s / C[i]) * Q_tot
 
     return time, T
 
 
 # ============================================================
-# 6) RUN EXAMPLE
+#  MAIN
 # ============================================================
-
 if __name__ == "__main__":
     params = load_parameters()
-    time, T = simulate(params, dt=0.1, t_end=48)
 
-    # Example print
-    print("Final temperatures:", T[-1])
+    # Lancer une simulation courte en mode debug
+    time, T = simulate(params, dt=1/60, t_end=5, debug=True)
+
+    print("\nSimulation terminée.")
+    print("Dernières températures :", T[-1])
+
+    # ==============================================================
+    #   PLOT DES TEMPÉRATURES
+    # ==============================================================
+
+    import matplotlib.pyplot as plt
+
+    plt.figure(figsize=(10,5))
+
+    for i in range(6):
+        plt.plot(time, T[:, i], label=f"T{i+1}")
+
+    plt.xlabel("Temps (heures)")
+    plt.ylabel("Température (°C)")
+    plt.title("Évolution des températures du puits")
+    plt.grid(True)
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
