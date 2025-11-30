@@ -211,7 +211,7 @@ class DataGrapherApp:
 
         # Time axis formatting
         self.ax.xaxis.set_major_locator(mdates.AutoDateLocator(maxticks=12))
-        self.ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m-%d\n%H:%M"))
+        self.ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m-%d"))
         self.fig.autofmt_xdate()
 
         self.ax.grid(True)
