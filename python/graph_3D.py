@@ -54,10 +54,21 @@ f_y[mask_med]  = 0.8
 f_y[mask_cold] = 0.5
 
 # -----------------------------
-# 3) Height factor f_z (hot bottom, cold top)
+# 3) Height factor f_z
+# min at bottom, max in the middle, medium at top
+# bottom: 0, middle: 1, top: 0.5
 # -----------------------------
-f_z = 1.0 - Z / 5*H
+z_norm = Z / H  # between 0 and 1
+
+f_z = np.where(
+    z_norm <= 0.5,
+    2.0 * z_norm,        # 0 -> 1 from bottom to mid
+    1.5 - z_norm         # 1 -> 0.5 from mid to top
+)
+
 f_z = np.clip(f_z, 0.0, 1.0)
+
+
 
 # -----------------------------
 # Combined temperature
