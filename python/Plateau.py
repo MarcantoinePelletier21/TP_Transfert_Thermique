@@ -16,7 +16,7 @@ warnings.filterwarnings("ignore", message="Mean of empty slice")
 #   "1H"    = moyenne horaire
 #   "1D"    = moyenne journalière
 #   "7D"    = moyenne hebdomadaire
-AVG_WINDOW = "1D"
+AVG_WINDOW = 0
 
 # Groupes de stations (indices 1..29)
 GROUPS = [
@@ -32,7 +32,7 @@ GROUPS = [
 # FILTRE TEMPOREL
 # ==========================================================
 
-USE_DATE_FILTER = True   # mettre False pour désactiver
+USE_DATE_FILTER = False   # mettre False pour désactiver
 DATE_START = "2024-02-02"
 DATE_END   = "2024-02-10"
 

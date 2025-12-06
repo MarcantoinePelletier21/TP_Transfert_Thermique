@@ -113,7 +113,7 @@ def compute_Q_aerotherme(i, T, T_ext, heaters, heater_timers, params, dt):
         # turn OFF
         if heaters[i] == 1:
             heaters[i] = 0
-            heater_timers[i] = 10/60      # 10 min = 0.166 h
+            heater_timers[i] = 5/60  
         return 0.0
 
     # --- Conditions pour ON ---
