@@ -113,7 +113,7 @@ def compute_Q_aerotherme(i, T, T_ext, heaters, heater_timers, params, dt):
         # turn OFF
         if heaters[i] == 1:
             heaters[i] = 0
-            heater_timers[i] = 30/60      # 10 min = 0.166 h
+            heater_timers[i] = 10/60      # 10 min = 0.166 h
         return 0.0
 
     # --- Conditions pour ON ---
@@ -299,7 +299,7 @@ def simulate(params, dt=1/60, t_end=48, debug=False):
     time = np.linspace(0, t_end, n_steps)
 
     T = np.zeros((n_steps, 6))
-    T[0, :] = np.full(6, 25.0)   # INITIALISATION À 25 °C
+    T[0, :] = np.full(6, 30.0)   # INITIALISATION À 25 °C
 
     # ------------------------------------------------------------
     # État des aérothermes
@@ -408,6 +408,15 @@ if __name__ == "__main__":
 
     print("\nSimulation terminée.")
     print("Dernières températures :", T[-1])
+    # ==============================================================
+#   MOYENNES DES TEMPÉRATURES T1..T6
+# ==============================================================
+    T_mean = np.mean(T, axis=0)
+
+    print("\nTempératures moyennes sur toute la simulation :")
+    for i in range(6):
+        print(f"T{i+1}_moy = {T_mean[i]:.2f} °C")
+
 
     # ==============================================================
     #   CALCUL DES T_ext & T_sol POUR LE GRAPHIQUE

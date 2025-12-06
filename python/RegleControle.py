@@ -18,8 +18,8 @@ NIGHT_END = 7     # 07:00
 # ---------------------------------------------------------------
 # Interrupteurs
 # ---------------------------------------------------------------
-SHOW_NIGHT = True     # surligner les nuits
-SHOW_COLD  = False       # surligner T_ext < 3°C
+SHOW_NIGHT = False     # surligner les nuits
+SHOW_COLD  = True       # surligner T_ext < 3°C
 
 
 def main():
