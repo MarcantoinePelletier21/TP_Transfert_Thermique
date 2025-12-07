@@ -1,7 +1,7 @@
 {
   "geometrie": {
     "epaisseur_plaque": 0.009525,
-    "epaisseur_asphalte" : 0.08,
+    "epaisseur_asphalte": 0.08,
     "epaisseur_ciment": 0.4,
     "epaisseur_isolant": 0.1,
     "longueur_puits": 26.1,
@@ -43,7 +43,6 @@
     "rho_air": 1.2
   },
 
-
   "infiltration": {
     "gap_1": 0.05107,
     "gap_2": 0.07930,
@@ -54,7 +53,7 @@
     "gap_back": 0.02567
   },
 
-  "flow_heaterON":{
+  "flow_heaterON": {
     "f12": 0.2381,
     "f21": 0.4438,
     "f23": 0.3268,
@@ -67,7 +66,7 @@
     "f65": 0.4070
   },
 
-    "flow_heaterOFF":{
+  "flow_heaterOFF": {
     "f12": 0.04113,
     "f21": 0.06844,
     "f23": 0.0529,
@@ -80,7 +79,7 @@
     "f65": 0.05788
   },
 
-  "chauffage":{
+  "chauffage": {
     "p1": 10000,
     "p2": 15000,
     "p3": 10000,
@@ -89,13 +88,12 @@
     "p6": 10000
   },
 
-  
- "temperature_sol": {
-  "T_mean": 2.0,
-  "A": 0.5,
-  "t0": 24.0,
-  "phi": 15.0
-},
+  "temperature_sol": {
+    "T_mean": 2.0,
+    "A": 0.5,
+    "t0": 24.0,
+    "phi": 15.0
+  },
 
   "temperature_exterieure": {
     "T_mean": -8,
@@ -111,9 +109,5 @@
     "C4": 469380.025,
     "C5": 469380.025,
     "C6": 407810.6875
+  }
 }
-
-
-}
-
-
