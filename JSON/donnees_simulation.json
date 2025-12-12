@@ -1,5 +1,6 @@
 {
   "geometrie": {
+    "__commentaire": "les dimensions de la plaque sont trouvés avec les proportions de la figure dans l'énoncé",
     "epaisseur_plaque": 0.009525,
     "epaisseur_asphalte": 0.08,
     "epaisseur_ciment": 0.4,
@@ -33,6 +34,7 @@
   },
 
   "proprietes": {
+    "__commentaire": "valeurs de référence trouvées en ligne sur le site https://www.engineeringtoolbox.com/",
     "k_acier": 50,
     "k_ciment": 1.4,
     "k_isolant": 0.03,
@@ -44,6 +46,7 @@
   },
 
   "infiltration": {
+    "__commentaire": "débits massiques provenant du fichier 'Infiltration et débits d'air.xlsx'",
     "gap_1": 0.05107,
     "gap_2": 0.07930,
     "gap_3": -0.59202,
@@ -54,6 +57,7 @@
   },
 
   "flow_heaterON": {
+    "__commentaire": "débits massiques provenant du fichier 'Infiltration et débits d'air.xlsx' entre zones",
     "f12": 0.2381,
     "f21": 0.4438,
     "f23": 0.3268,
@@ -67,6 +71,7 @@
   },
 
   "flow_heaterOFF": {
+    "__commentaire": "débits massiques provenant du fichier 'Infiltration et débits d'air.xlsx' entre zones",
     "f12": 0.04113,
     "f21": 0.06844,
     "f23": 0.0529,
@@ -80,6 +85,7 @@
   },
 
   "chauffage": {
+    "__commentaire": "les valeurs sont trouvées dans la figure de l'énoncé",
     "p1": 10000,
     "p2": 15000,
     "p3": 10000,
@@ -96,6 +102,7 @@
   },
 
   "temperature_exterieure": {
+    "__commentaire": "Valeur arbitraire pour faire la simulation",
     "T_mean": -8,
     "A": 8,
     "t0": 24.0,
@@ -103,6 +110,7 @@
   },
 
   "capacitance_thermique": {
+    "__commentaire": "première estimation faite avec le site https://www.engineeringtoolbox.com/, mais ensuite ajusté à la situation",
     "C1": 400781.6875,
     "C2": 407081.6875,
     "C3": 407801.6875,
